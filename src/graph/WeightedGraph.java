@@ -4,12 +4,21 @@ package graph;
 import java.util.*;
 
 public class WeightedGraph<T> implements Graph<T> {
-    public Map<T, List<Edge<T>>> adjacencyList;
+    public Map<T, List<Edge<T>>> adjacencyList; //Map from vertex to list of edges
     public int order;
 
     public WeightedGraph() {
         this.adjacencyList = new HashMap<>();
         this.order = 0;
+    }
+
+    public WeightedGraph(List<Edge<T>> edges) {
+        this();
+        for (Edge<T> edge : edges) {
+            addVertex(edge.source);
+            addVertex(edge.destination);
+            addEdge(edge.source, edge.destination, edge.weight);
+        }
     }
 
     // Time complexity: O(1)
@@ -55,8 +64,8 @@ public class WeightedGraph<T> implements Graph<T> {
     @Override
     public void addEdge(T v, T w, int weight) {
         if (adjacencyList.containsKey(v) && adjacencyList.containsKey(w)) {
-            adjacencyList.get(v).add(new Edge<>(w, weight));
-            adjacencyList.get(w).add(new Edge<>(v, weight));
+            adjacencyList.get(v).add(new Edge<>(v,w, weight));
+            adjacencyList.get(w).add(new Edge<>(w,v, weight));
         }
     }
 
@@ -90,7 +99,6 @@ public class WeightedGraph<T> implements Graph<T> {
     public int alpha() {
         return adjacencyList.values().stream().mapToInt(List::size).sum() / 2;
     }
-
     // Time complexity: O(V + E * log(V)), where V is the number of vertices and E is the number of edges
     @Override
     public List<T> getAdjacencyList(T v) {

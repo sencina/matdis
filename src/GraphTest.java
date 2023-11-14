@@ -75,5 +75,32 @@ public class GraphTest {
         assertEquals(2, graph.prim().size());
     }
 
+    @Test
+    public void testWeightedGraphConstructor() {
+        // Create a list of edges
+        List<Edge<Integer>> edges = List.of(
+                new Edge<>(1, 2, 3),
+                new Edge<>(2, 3, 2),
+                new Edge<>(3, 1, 4)
+        );
+
+        // Create a weighted graph using the constructor
+        WeightedGraph<Integer> graph = new WeightedGraph<>(edges);
+
+        // Perform assertions to check the graph properties
+        assertEquals(3, graph.order());
+        assertEquals(3, graph.alpha());
+
+        assertTrue(graph.hasVertex(1));
+        assertTrue(graph.hasVertex(2));
+        assertTrue(graph.hasVertex(3));
+
+        assertTrue(graph.hasEdge(1, 2));
+        assertTrue(graph.hasEdge(2, 3));
+        assertTrue(graph.hasEdge(3, 1));
+        assertTrue(graph.hasEdge(1, 3));
+
+    }
+
 }
 
